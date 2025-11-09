@@ -1,34 +1,36 @@
 import React from 'react';
-import { Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
 
 const HeroHeader = () => {
   return (
-    <div className="mb-8 text-center will-change-transform">
+    <div className="text-center text-white space-y-3">
       <motion.div
-        initial={{ y: 8, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        className="mx-auto mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-violet-200/90 shadow-sm backdrop-blur-sm"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20"
       >
-        <Sparkles className="h-4 w-4" />
-        <span className="text-xs font-medium tracking-wide">Vibrant access portal</span>
+        <Sparkles className="w-4 h-4 text-yellow-300" />
+        <span className="text-sm tracking-wide">Immersive Login</span>
       </motion.div>
+
       <motion.h1
-        initial={{ y: 8, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.05 }}
-        className="text-4xl font-semibold tracking-tight text-white sm:text-5xl"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.1 }}
+        className="text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight"
       >
-        Welcome back
+        Step into a brighter sign‑in
       </motion.h1>
+
       <motion.p
-        initial={{ y: 8, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-        className="mx-auto mt-3 max-w-sm text-sm text-white/75"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.7, delay: 0.2 }}
+        className="text-white/80 max-w-lg mx-auto text-sm sm:text-base"
       >
-        Sign in to continue to your dashboard.
+        Powered by a live 3D scene, subtle particles, and a responsive glass interface.
       </motion.p>
     </div>
   );

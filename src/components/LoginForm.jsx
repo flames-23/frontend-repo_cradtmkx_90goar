@@ -1,91 +1,81 @@
 import React, { useState } from 'react';
-import { Eye, EyeOff, User, Lock, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { User, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
 
-const InputField = ({ label, type = 'text', icon: Icon, value, onChange, name }) => {
-  const [show, setShow] = useState(false);
-  const isPassword = type === 'password';
-  const inputType = isPassword ? (show ? 'text' : 'password') : type;
-
-  return (
-    <div className="group">
-      <label className="mb-2 block text-sm font-medium text-white/85">{label}</label>
-      <div className="relative flex items-center">
-        {Icon && (
-          <Icon className="pointer-events-none absolute left-3 h-5 w-5 text-white/60" />
-        )}
-        <input
-          className="w-full rounded-2xl border border-white/10 bg-white/10/50 py-3.5 pl-11 pr-12 text-white placeholder-white/60 outline-none transition focus:border-violet-300/40 focus:ring-2 focus:ring-violet-400/30"
-          type={inputType}
-          value={value}
-          onChange={(e) => onChange(name, e.target.value)}
-          placeholder={label}
-          autoComplete={isPassword ? 'current-password' : 'username'}
-        />
-        {isPassword && (
-          <button
-            onClick={() => setShow((s) => !s)}
-            type="button"
-            aria-label={show ? 'Hide password' : 'Show password'}
-            className="absolute right-3 rounded-md p-1.5 text-white/70 transition hover:bg-white/10 hover:text-white"
-          >
-            {show ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-          </button>
-        )}
-      </div>
+const Input = ({ icon: Icon, type = 'text', placeholder, value, onChange, name }) => (
+  <label className="group block">
+    <div className="flex items-center gap-3 rounded-xl bg-white/5 border border-white/15 px-4 py-3 focus-within:border-white/30">
+      <Icon className="w-5 h-5 text-white/60" />
+      <input
+        name={name}
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        className="w-full bg-transparent outline-none text-white placeholder-white/40"
+        autoComplete="off"
+        aria-label={placeholder}
+      />
     </div>
-  );
-};
+  </label>
+);
 
-const LoginForm = ({ onSubmit, loading }) => {
+const LoginForm = ({ onSubmit }) => {
   const [form, setForm] = useState({ username: '', password: '' });
+  const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (name, value) => setForm((f) => ({ ...f, [name]: value }));
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit?.(form);
+    setLoading(true);
+    try {
+      await onSubmit?.(form);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <motion.form
-      onSubmit={handleSubmit}
-      className="space-y-6"
-      initial={{ y: 8, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
-    >
-      <InputField
-        label="Username"
-        name="username"
-        icon={User}
-        value={form.username}
-        onChange={handleChange}
-      />
-      <InputField
-        label="Password"
-        name="password"
-        type="password"
-        icon={Lock}
-        value={form.password}
-        onChange={handleChange}
-      />
-      <motion.button
-        whileHover={{ scale: 1.015 }}
-        whileTap={{ scale: 0.985 }}
-        type="submit"
-        className="relative inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 via-fuchsia-500 to-sky-500 px-4 py-3.5 font-semibold text-white shadow-lg shadow-violet-500/30 ring-1 ring-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-300 disabled:cursor-not-allowed disabled:opacity-60"
-        disabled={loading}
-      >
-        {loading ? 'Signing in…' : 'Login'}
-        <ArrowRight className="h-4 w-4" />
-        <span className="pointer-events-none absolute inset-0 rounded-2xl bg-white/10 opacity-0 transition-opacity group-hover:opacity-100" />
-      </motion.button>
-      <div className="flex items-center justify-between text-xs text-white/70">
-        <button type="button" className="underline-offset-2 hover:underline">Forgot password?</button>
-        <button type="button" className="underline-offset-2 hover:underline">Create account</button>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <Input icon={User} name="username" placeholder="Username" value={form.username} onChange={handleChange} />
+
+      <div className="relative">
+        <Input
+          icon={Lock}
+          name="password"
+          type={show ? 'text' : 'password'}
+          placeholder="Password"
+          value={form.password}
+          onChange={handleChange}
+        />
+        <button
+          type="button"
+          onClick={() => setShow((s) => !s)}
+          aria-label={show ? 'Hide password' : 'Show password'}
+          className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-md text-white/70 hover:text-white"
+        >
+          {show ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+        </button>
       </div>
-    </motion.form>
+
+      <motion.button
+        type="submit"
+        whileHover={{ y: -1 }}
+        whileTap={{ scale: 0.98 }}
+        disabled={loading}
+        className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-3 font-medium shadow-lg shadow-indigo-500/25 disabled:opacity-60"
+      >
+        {loading ? 'Signing in…' : 'Sign in'}
+        <ArrowRight className="w-5 h-5" />
+      </motion.button>
+
+      <div className="flex items-center justify-between text-xs text-white/70">
+        <a className="hover:text-white underline-offset-4 hover:underline" href="#">Forgot password?</a>
+        <a className="hover:text-white underline-offset-4 hover:underline" href="#">Create account</a>
+      </div>
+    </form>
   );
 };
 
