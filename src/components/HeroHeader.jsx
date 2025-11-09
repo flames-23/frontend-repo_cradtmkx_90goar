@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 const HeroHeader = () => {
   return (
-    <div className="mb-8 text-center">
+    <div className="mb-8 text-center will-change-transform">
       <motion.div
         initial={{ y: 8, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
