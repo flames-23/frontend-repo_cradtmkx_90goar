@@ -1,15 +1,35 @@
 import React from 'react';
-import { CheckCircle2 } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const HeroHeader = () => {
   return (
-    <div className="mb-6 text-center">
-      <div className="mx-auto mb-3 inline-flex items-center gap-2 rounded-full bg-sky-400/10 px-3 py-1 text-sky-200 ring-1 ring-inset ring-sky-300/20">
-        <CheckCircle2 className="h-4 w-4" />
-        <span className="text-xs font-medium tracking-wide">Secure identity access</span>
-      </div>
-      <h1 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">Welcome back</h1>
-      <p className="mt-2 text-sm text-white/70">Log in to manage your digital identity and access your dashboard.</p>
+    <div className="mb-8 text-center">
+      <motion.div
+        initial={{ y: 8, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="mx-auto mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-violet-200/90 shadow-sm backdrop-blur-sm"
+      >
+        <Sparkles className="h-4 w-4" />
+        <span className="text-xs font-medium tracking-wide">Vibrant access portal</span>
+      </motion.div>
+      <motion.h1
+        initial={{ y: 8, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.05 }}
+        className="text-4xl font-semibold tracking-tight text-white sm:text-5xl"
+      >
+        Welcome back
+      </motion.h1>
+      <motion.p
+        initial={{ y: 8, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        className="mx-auto mt-3 max-w-sm text-sm text-white/75"
+      >
+        Sign in to continue to your dashboard.
+      </motion.p>
     </div>
   );
 };

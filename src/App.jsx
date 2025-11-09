@@ -8,12 +8,11 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
-  const handleLogin = async ({ username, password }) => {
-    // Demo submission handler; replace with API call when backend is ready
+  const handleLogin = async ({ username }) => {
     setLoading(true);
     setMessage('');
     try {
-      await new Promise((r) => setTimeout(r, 1200));
+      await new Promise((r) => setTimeout(r, 900));
       setMessage(`Welcome, ${username || 'guest'}!`);
     } catch (e) {
       setMessage('Something went wrong.');
@@ -32,10 +31,10 @@ function App() {
             <HeroHeader />
             <LoginForm onSubmit={handleLogin} loading={loading} />
             {message && (
-              <p className="mt-4 text-center text-sm text-sky-200">{message}</p>
+              <p className="mt-5 text-center text-sm text-violet-200">{message}</p>
             )}
-            <div className="mt-6 text-center text-xs text-white/50">
-              Protected by multi-factor and biometric security
+            <div className="mt-8 text-center text-xs text-white/70">
+              Secured with modern encryption and MFA
             </div>
           </GlassCard>
         </div>
